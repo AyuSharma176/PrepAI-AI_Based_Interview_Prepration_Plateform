@@ -54,6 +54,7 @@
         <div class="score-row">
           <div class="score-box" id="score-x">
             <span class="score-player x-color">X</span>
+            <span class="score-label">You</span>
             <span class="score-num" id="score-x-num">0</span>
           </div>
           <div class="score-box draw-box" id="score-d">
@@ -62,12 +63,13 @@
           </div>
           <div class="score-box" id="score-o">
             <span class="score-player o-color">O</span>
+            <span class="score-label">AI</span>
             <span class="score-num" id="score-o-num">0</span>
           </div>
         </div>
 
         <div class="turn-banner" id="turn-banner">
-          Player <span id="current-turn" class="x-color">X</span>'s turn
+          <span id="current-turn-text">Your turn</span>
         </div>
 
         <div class="board" id="board">

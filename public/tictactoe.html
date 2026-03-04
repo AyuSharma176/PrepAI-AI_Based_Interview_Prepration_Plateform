@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PrepAI | Loading…</title>
+  <link rel="icon" type="image/svg+xml" href="/gen2.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/tictactoe.css" />
+</head>
+<body>
+
+  <!-- Background particles -->
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+
+  <div class="page-wrapper">
+
+    <!-- Left — branding + server status -->
+    <aside class="side-panel">
+      <div class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-brain"></i></div>
+        <span class="brand-name">Prep<span class="accent">AI</span></span>
+      </div>
+
+      <div class="status-card glass-card">
+        <div class="status-header">
+          <span class="dot dot--spinning" id="dot"></span>
+          <span id="status-label">Server is waking up&hellip;</span>
+        </div>
+        <p class="status-desc">We run on Render's free tier, so the first boot takes ~30 seconds. Play a quick game while you wait!</p>
+
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="server-ready hidden" id="ready-msg">
+          <i class="fa-solid fa-circle-check"></i> Server is ready!
+        </div>
+
+        <button class="btn-continue hidden" id="continue-btn">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          Continue to PrepAI
+        </button>
+      </div>
+    </aside>
+
+    <!-- Right — game -->
+    <main class="game-panel">
+      <div class="game-card glass-card">
+        <h2 class="game-title">Tic Tac Toe</h2>
+
+        <div class="score-row">
+          <div class="score-box" id="score-x">
+            <span class="score-player x-color">X</span>
+            <span class="score-num" id="score-x-num">0</span>
+          </div>
+          <div class="score-box draw-box" id="score-d">
+            <span class="score-label">Draw</span>
+            <span class="score-num" id="score-d-num">0</span>
+          </div>
+          <div class="score-box" id="score-o">
+            <span class="score-player o-color">O</span>
+            <span class="score-num" id="score-o-num">0</span>
+          </div>
+        </div>
+
+        <div class="turn-banner" id="turn-banner">
+          Player <span id="current-turn" class="x-color">X</span>'s turn
+        </div>
+
+        <div class="board" id="board">
+          <!-- 9 cells rendered by JS -->
+        </div>
+
+        <div class="game-result hidden" id="game-result">
+          <span id="result-text"></span>
+        </div>
+
+        <button class="btn-restart" id="restart">
+          <i class="fa-solid fa-rotate-right"></i> New Game
+        </button>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="/js/tictactoe.js"></script>
+</body>
+</html>

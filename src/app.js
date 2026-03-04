@@ -52,6 +52,10 @@ app.use(
   })
 );
 
+    // Backend readiness endpoint for tictactoe page
+    app.get('/api/ready', (req, res) => {
+      res.json({ ready: true });
+    });
 // Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

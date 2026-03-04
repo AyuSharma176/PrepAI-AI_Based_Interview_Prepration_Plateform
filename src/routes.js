@@ -1,17 +1,17 @@
 // routes.js
 const express = require('express');
 const router = express.Router();
+const path = require('path');
+const fs = require('fs');
 const sessionController = require('./controllers/sessionController');
 const spaceController = require('./controllers/spaceController');
 const interviewController = require('./controllers/interviewController');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 // Simple protection middleware
 const protect = (req, res, next) => {
   if (!req.session.uniqueId) {
-    return res.redirect('/');
+    return res.redirect('/home');
   }
   next();
 };
@@ -35,8 +35,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Welcome page
+// Loading / game page — served immediately while server wakes up
 router.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/tictactoe.html'));
+});
+
+// Actual home page (login / start)
+router.get('/home', (req, res) => {
   if (req.session.uniqueId) {
     return res.redirect('/dashboard');
   }
@@ -45,8 +50,7 @@ router.get('/', (req, res) => {
 
 router.get('/welcome', (req, res) => {
   res.render('welcome');
-}
-);
+});
 
 // Add this to routes.js
 router.get('/api/questions-answers/:roundId', protect, interviewController.getQuestionsAnswers);

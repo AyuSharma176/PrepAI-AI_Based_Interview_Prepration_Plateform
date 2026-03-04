@@ -114,43 +114,42 @@ restartBtn.addEventListener('click', () => {
 updateTurnUI();
 renderBoard();
 
-/* ── Backend readiness polling ──────────────────── */
+/* ── Backend readiness polling via /health ──────────── */
 let elapsed = 0;
-const POLL_INTERVAL = 3000;   // ms between polls
-const FAKE_FILL_PER_TICK = 4; // % of progress bar per tick (visual only)
+const POLL_INTERVAL = 3000;   // ms between each /health poll
+const FAKE_FILL_PER_TICK = 3; // visual progress % per tick (capped at 90)
 
 function advanceProgress() {
-  elapsed = Math.min(elapsed + FAKE_FILL_PER_TICK, 90); // cap at 90 until real ready
+  elapsed = Math.min(elapsed + FAKE_FILL_PER_TICK, 90);
   progressBar.style.width = elapsed + '%';
 }
 
 function onReady() {
-  // Complete the bar
   progressBar.style.width = '100%';
-
-  // Swap spinner → green dot
   dot.classList.remove('dot--spinning');
   dot.classList.add('dot--ready');
-  statusLabel.textContent = 'Server is ready!';
-
+  statusLabel.textContent = 'Server is awake!';
   readyMsg.classList.remove('hidden');
   continueBtn.classList.remove('hidden');
 }
 
-function pollBackend() {
+function pollHealth() {
   advanceProgress();
-  fetch('/api/ready', { cache: 'no-store' })
-    .then(res => res.ok ? res.json() : Promise.reject())
+  fetch('/health', { cache: 'no-store' })
+    .then(res => res.ok ? res.json() : Promise.reject(new Error(res.status)))
     .then(data => {
-      if (data.ready) { onReady(); }
-      else            { setTimeout(pollBackend, POLL_INTERVAL); }
+      if (data.status === 'ok') {
+        onReady();
+      } else {
+        setTimeout(pollHealth, POLL_INTERVAL);
+      }
     })
-    .catch(() => setTimeout(pollBackend, POLL_INTERVAL));
+    .catch(() => setTimeout(pollHealth, POLL_INTERVAL));
 }
 
-// Start polling after a small initial delay (let server spin up attempt first)
-setTimeout(pollBackend, 1500);
+// Begin polling once the page loads
+setTimeout(pollHealth, 1500);
 
 continueBtn.addEventListener('click', () => {
-  window.location.href = '/';
+  window.location.href = '/home';
 });

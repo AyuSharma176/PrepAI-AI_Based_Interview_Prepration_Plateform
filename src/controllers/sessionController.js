@@ -170,7 +170,7 @@ const updateProfile = async (req, res) => {
 // End session
 const endSession = (req, res) => {
   req.session = null; // Clear the session
-  res.redirect('/'); // Redirect to welcome page
+  res.redirect('/home'); // Redirect to home page
 };
 
 exports.createSession = async (name, email) => {

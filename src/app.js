@@ -1,6 +1,7 @@
 // app.js
 const express = require('express');
 const path = require('path');
+const mongoose = require('mongoose');
 const session = require('cookie-session');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config(); // Load environment variables
@@ -52,10 +53,6 @@ app.use(
   })
 );
 
-    // Backend readiness endpoint for tictactoe page
-    app.get('/api/ready', (req, res) => {
-      res.json({ ready: true });
-    });
 // Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -72,9 +69,13 @@ app.use('/api/', apiLimiter);
 app.use('/spaces/create', createSpaceLimiter);
 app.use(['/generate-questions', '/finish-round'], interviewLimiter);
 
-// Health check route (for monitoring services like Render)
+// Health check route — used by the loading game page to detect server readiness
 app.get('/health', (req, res) => {
-  res.status(200).send('OK');
+  const dbReady = mongoose.connection.readyState === 1; // 1 = connected
+  if (dbReady) {
+    return res.status(200).json({ status: 'ok', message: 'I am awake' });
+  }
+  return res.status(503).json({ status: 'starting', message: 'Server is starting up' });
 });
 
 // Routes

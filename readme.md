@@ -101,7 +101,7 @@ Post-interview AI-generated reports include:
 <td colspan="2" align="center">
 
 **AI & Integrations**
-- 🤖 **Google Gemini API** (gemini-flash-latest) - Question generation & evaluation
+- 🤖 **Google Gemini API** (gemini-flash-latest) - Question generation , evaluation & Smart suggestions
 - 🎙️ **Text-to-Speech** - AI voice synthesis
 - 📄 **PDF Parser** - Resume text extraction
 
